@@ -2,11 +2,26 @@ package com.alestrio.extenduphold.data.entity;
 
 import com.alestrio.extenduphold.data.AbstractEntity;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 public class User extends AbstractEntity {
@@ -20,6 +35,7 @@ public class User extends AbstractEntity {
     private String email = "";
 
     public User(@NotNull @NotEmpty int id, @NotNull @NotEmpty String username, @Email @NotNull @NotEmpty String email, @NotNull @NotEmpty String password, @NotNull @NotEmpty String photo_url, @NotNull @NotEmpty Date last_connexion, @NotNull @NotEmpty String strategy_table, @NotNull @NotEmpty String copy_token, @NotNull @NotEmpty String tx_table, @NotNull @NotEmpty String encrypted_apik) {
+        this.setId(id);
         this.username = username;
         this.email = email;
         this.password = password;
@@ -31,9 +47,100 @@ public class User extends AbstractEntity {
         this.encrypted_apik = encrypted_apik;
     }
 
-    public User() {
+    public User(@NotNull @NotEmpty String username, @Email @NotNull @NotEmpty String email, @NotNull @NotEmpty String password, @NotNull @NotEmpty String photo_url, @NotNull @NotEmpty String encrypted_apik) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.photo_url = photo_url;
+        this.strategy_table = this.generateStratID();
+        this.copy_token = this.generateCopyToken();
+        this.tx_table = this.generateTxID();
+        this.encrypted_apik = encrypted_apik;
+        this.encryptApik();
+        this.hashPassword();
+    }
+
+    private String generateTxID() {
+        return UUID.randomUUID().toString();
+    }
+
+    private String generateCopyToken() {
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase().substring(0, 7);
+    }
+
+    private String generateStratID() {
+        return UUID.randomUUID().toString();
+    }
+
+    /* Those are encryption functions for the API key
+    ------------------------------------------------
+     */
+    private void encryptApik() {
+        try{
+            SecretKey key = getKeyFromPassword(this.password);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key, generateIv());
+            byte[] cipherText = cipher.doFinal(this.encrypted_apik.getBytes());
+            this.encrypted_apik =  Base64.getEncoder()
+                    .encodeToString(cipherText);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public String decryptApik() {
+        try{
+            SecretKey key = getKeyFromPassword(this.password);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, generateIv());
+            byte[] plainText = cipher.doFinal(Base64.getDecoder()
+                    .decode(this.encrypted_apik));
+            return new String(plainText);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static IvParameterSpec generateIv() {
+        byte[] iv = new byte[16];
+        new SecureRandom().nextBytes(iv);
+        return new IvParameterSpec(iv);
+    }
+
+    public static SecretKey getKeyFromPassword(String password)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        byte[] salt = getNextSalt();
+
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
+        SecretKey secret = new SecretKeySpec(factory.generateSecret(spec)
+                .getEncoded(), "AES");
+        return secret;
+    }
+
+    private static byte[] getNextSalt() {
+        SecureRandom random = new SecureRandom();
+        byte bytes[] = new byte[20];
+        random.nextBytes(bytes);
+        return bytes;
+    }
+
+    /* --------------------------------------*/
+
+    private void hashPassword() {
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(getNextSalt());
+            this.password = Arrays.toString(md.digest(this.password.getBytes(StandardCharsets.UTF_8)));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
+
+    public User() { }
 
     @Override
     public String toString() {

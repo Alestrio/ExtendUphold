@@ -28,4 +28,15 @@ public class UserService {
             return new ArrayList();
         }
     }
+
+    public void addUser(User user){
+        this.createStrat(user.getStrategy_table());
+        this.createTx(user.getTx_table());
+    }
+
+    private void createTx(String tx_table) {
+    }
+
+    private void createStrat(String id) {
+    }
 }
