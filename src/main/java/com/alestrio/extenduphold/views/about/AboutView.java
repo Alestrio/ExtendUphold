@@ -9,6 +9,7 @@ import com.vaadin.flow.router.Route;
 import com.alestrio.extenduphold.views.main.MainView;
 
 @Route(value = "about", layout = MainView.class)
+@PageTitle("foo")
 public class AboutView extends Div {
     /**
      * This is the view who contains every legal informations needed.
