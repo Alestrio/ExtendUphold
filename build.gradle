@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final'
     implementation 'org.springframework.boot:spring-boot-devtools:2.3.2.RELEASE'
     implementation 'org.springframework:spring-jdbc:5.3.3'
+    implementation 'org.springframework.security:spring-security-web:5.4.2'
+    implementation 'org.springframework.security:spring-security-config:5.4.2'
+    implementation 'org.springframework.security:spring-security-core:5.4.2'
     testImplementation 'com.vaadin:vaadin-testbench:14.4.6'
     testImplementation 'io.github.bonigarcia:webdrivermanager:3.8.1'
 }

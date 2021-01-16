@@ -4,6 +4,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * This is the abstract model for all database entities
+ */
 @MappedSuperclass
 public abstract class AbstractEntity {
 

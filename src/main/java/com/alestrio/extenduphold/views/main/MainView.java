@@ -8,6 +8,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -69,6 +70,8 @@ public class MainView extends AppLayout {
         logoLayout.add(new Image("images/logo.png", "ExtendUphold logo"));
         logoLayout.add(new H1("ExtendUphold"));
         layout.add(logoLayout, menu);
+        Anchor logout = new Anchor("logout", "Log out");
+        layout.add(logout);
         return layout;
     }
 
