@@ -88,9 +88,9 @@ public class User extends AbstractEntity {
         }
     }
 
-    public String decryptApik() {
+    public String decryptApik(String password) {
         try{
-            SecretKey key = getKeyFromPassword(this.password);
+            SecretKey key = getKeyFromPassword(password);
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, key, generateIv());
             byte[] plainText = cipher.doFinal(Base64.getDecoder()
