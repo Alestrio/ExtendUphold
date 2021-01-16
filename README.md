@@ -1,16 +1,14 @@
 # ExtendUphold
 
-This is an example project that can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+> Trading is good, trading with good tools is better
 
-The project is a standard Maven project, so you can import it to your IDE of choice. [Read more how to set up a development environment](https://vaadin.com/docs/v14/flow/installing/installing-overview.html) for Vaadin projects (Windows, Linux, macOS). 
-
-This project was created from https://start.vaadin.com.
+This project is a web app intended to be used with the online exchange and wallet Uphold. It uses Uphold's API to enhance it's capabilities, provide advanced
+trading capabilities and provide a trading strategy manager.
 
 ## Running and debugging the applcation
 
 ### Running the application from the command line.
-To run from the command line, use `mvn` and open http://localhost:8080 in your browser.
+To run from the command line, use ./gradlew appRun from the command line
 
 ### Running and debugging the application in Intellij IDEA
 - Locate the Application.java class in the Project view. It is in the src folder, under the main package's root.
