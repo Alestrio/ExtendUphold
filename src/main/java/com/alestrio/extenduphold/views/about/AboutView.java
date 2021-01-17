@@ -1,5 +1,6 @@
 package com.alestrio.extenduphold.views.about;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.Div;
@@ -9,12 +10,12 @@ import com.vaadin.flow.router.Route;
 import com.alestrio.extenduphold.views.main.MainView;
 
 @Route(value = "about", layout = MainView.class)
-@PageTitle("foo")
 public class AboutView extends Div {
     /**
      * This is the view who contains every legal informations needed.
      */
     public AboutView() {
+        UI.getCurrent().getPage().setTitle(getTranslation("drawer.about"));
 
         setId("about-view");
         Accordion aboutAccordion = new Accordion();

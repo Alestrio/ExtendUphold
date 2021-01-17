@@ -9,6 +9,7 @@ import com.alestrio.extenduphold.views.tradingotg.TradingOTGView;
 import com.alestrio.extenduphold.views.txhistory.TxHistoryView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -122,6 +123,6 @@ public class MainView extends AppLayout {
     }
 
     private String getCurrentPageTitle() {
-        return getContent().getClass().getAnnotation(PageTitle.class).value();
+        return UI.getCurrent().getInternals().getTitle();
     }
 }
