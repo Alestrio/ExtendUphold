@@ -49,6 +49,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
          * We do not recommend that you configure users directly in the code for applications in production.
          * You can easily change this Spring Security configuration to use an authentication provider for
          * LDAP, JAAS, and other real world sources.
+         *
+         * Personal note : This is the function returning an array of UserDetails, which means it is pretty easy to
+         * modify and link the SpringSecurity to our database.
+         * Though, we will surely have to edit the password-hashing function to use Spring Security library.
+         * https://mkyong.com/spring-security/spring-security-password-hashing-example/
+         *
+         * Additionally, there is currently no admin GUI, so there is no need to use another role than USER.
+         * We will edit that when Admin GUI starts to be WiP.
          */
         UserDetails user =
                 User.withUsername("user")

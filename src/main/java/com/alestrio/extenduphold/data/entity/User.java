@@ -130,6 +130,12 @@ public class User extends AbstractEntity {
     /* --------------------------------------*/
 
     private void hashPassword() {
+        /**
+         * This is the function generating the hash from the plain-text password.
+         *
+         * We will surely have to edit that method in order to use SpringSecurity embeded methods for hash and salt.
+         * This way, it would simplify the link between the frontend and the backend : here.
+         */
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(getNextSalt());
