@@ -1,6 +1,7 @@
 package com.alestrio.extenduphold.data.entity;
 
 import com.alestrio.extenduphold.data.AbstractEntity;
+import javassist.bytecode.ByteArray;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -34,8 +35,7 @@ public class User extends AbstractEntity {
     @NotEmpty
     private String email = "";
 
-    public User(@NotNull @NotEmpty int id, @NotNull @NotEmpty String username, @Email @NotNull @NotEmpty String email, @NotNull @NotEmpty String password, @NotNull @NotEmpty String photo_url, @NotNull @NotEmpty Date last_connexion, @NotNull @NotEmpty String strategy_table, @NotNull @NotEmpty String copy_token, @NotNull @NotEmpty String tx_table, @NotNull @NotEmpty String encrypted_apik) {
-        this.setId(id);
+    public User(@NotNull @NotEmpty String username, @Email @NotNull @NotEmpty String email, @NotNull @NotEmpty String password, @NotNull @NotEmpty String photo_url, @NotNull @NotEmpty Date last_connexion, @NotNull @NotEmpty String strategy_table, @NotNull @NotEmpty String copy_token, @NotNull @NotEmpty String tx_table, @NotNull @NotEmpty String encrypted_apik) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -139,7 +139,7 @@ public class User extends AbstractEntity {
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(getNextSalt());
-            this.password = Arrays.toString(md.digest(this.password.getBytes(StandardCharsets.UTF_8)));
+            this.password = new String(md.digest(this.password.getBytes(StandardCharsets.UTF_8)));
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class User extends AbstractEntity {
         this.strategy_table = this.generateStratID();
         this.copy_token = this.generateCopyToken();
         this.tx_table = this.generateTxID();
-        this.hashPassword();
+        this.encrypted_apik = "sample";
     }
 
     @Override
@@ -190,6 +190,7 @@ public class User extends AbstractEntity {
 
     public void setPassword(String password) {
         this.password = password;
+        this.hashPassword();
     }
 
     public String getPhoto_url() {

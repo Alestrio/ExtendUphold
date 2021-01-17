@@ -12,6 +12,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
 
 @Route("register")
 public class UserCreationView extends VerticalLayout {
@@ -22,15 +25,23 @@ public class UserCreationView extends VerticalLayout {
     private final PasswordField confirmPassword = new PasswordField(getTranslation("register.confirmPassword"));
     private final Button save = new Button(getTranslation("register.submit"));
 
+    UserService service = new UserService();
+
+
+
 
     public UserCreationView() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(new H1(getTranslation("register.h1")), pseudo, email, password, confirmPassword, save);
-        save.addClickListener(e -> submit());
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         setSizeFull();
+        buttonSet();
+    }
 
+    @PostConstruct
+    public void buttonSet(){
+        save.addClickListener(e -> submit());
     }
 
     private void submit(){
@@ -38,11 +49,11 @@ public class UserCreationView extends VerticalLayout {
             User user = new User();
             Binder<User> binder = new Binder<>();
             binder.forField(pseudo).bind(User::getUsername, User::setUsername);
-            binder.forField(email).bind(User::getEmail, User::setUsername);
+            binder.forField(email).bind(User::getEmail, User::setEmail);
             binder.forField(password).bind(User::getPassword, User::setPassword);
             try {
                 binder.writeBean(user);
-                UserService service = new UserService();
+                System.out.println(user.toString());
                 service.addUser(user);
                 UI.getCurrent().navigate("login");
             } catch (ValidationException e) {

@@ -1,10 +1,14 @@
 package com.alestrio.extenduphold.data.service;
 
 import com.alestrio.extenduphold.data.entity.User;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +18,25 @@ import java.util.List;
  */
 @Component
 public class UserService {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
+
+    public UserService() {
+        MysqlDataSource data = new MysqlDataSource();
+        data.setServerName("localhost");
+        data.setPortNumber(3306);
+        data.setUser("test");
+        data.setPassword("test");
+        data.setDatabaseName("extenduphold");
+
+        DataSource dataSource;
+        jdbcTemplate = new JdbcTemplate(data);
+    }
 
     public List findAll() {
         try {
-            return jdbcTemplate.query("SELECT id, username, email, password, photo_url, last_connexion," +
+            return jdbcTemplate.query("SELECT username, email, password, photo_url, last_connexion," +
                     " strategy_table, copy_token, tx_table, encrypted_apik FROM users",
-                    (rs, rowNum) -> new User(rs.getInt("id"),
-                    rs.getString("username"), rs.getString("email"),
+                    (rs, rowNum) -> new User(rs.getString("username"), rs.getString("email"),
                     rs.getString("password"), rs.getString("photo_url"),
                     rs.getDate("last_connexion"), rs.getString("strategy_table"),
                     rs.getString("copy_token"), rs.getString("tx_table"),
@@ -37,11 +51,12 @@ public class UserService {
         try {
             this.createStrat(user.getStrategy_table());
             this.createTx(user.getTx_table());
-            return jdbcTemplate.update("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            return jdbcTemplate.update("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     user.getUsername(), user.getEmail(), user.getPassword(),
                     user.getPhoto_url(), user.getLast_connexion(), user.getStrategy_table(),
                     user.getCopy_token(), user.getTx_table(), user.getEncrypted_apik());
         } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
     }
