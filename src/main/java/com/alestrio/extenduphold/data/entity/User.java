@@ -146,7 +146,12 @@ public class User extends AbstractEntity {
 
     }
 
-    public User() { }
+    public User() {
+        this.strategy_table = this.generateStratID();
+        this.copy_token = this.generateCopyToken();
+        this.tx_table = this.generateTxID();
+        this.hashPassword();
+    }
 
     @Override
     public String toString() {
@@ -231,8 +236,12 @@ public class User extends AbstractEntity {
         return encrypted_apik;
     }
 
-    public void setEncrypted_apik(String encrypted_apik) {
+    public void setEncrypted_apik(String encrypted_apik, String password) {
+        String tempPass = password;
+        this.password = password;
         this.encrypted_apik = encrypted_apik;
+        this.encryptApik();
+        this.password = tempPass;
     }
 
     @NotNull
