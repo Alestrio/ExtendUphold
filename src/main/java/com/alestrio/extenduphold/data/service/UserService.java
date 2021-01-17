@@ -32,7 +32,7 @@ public class UserService {
         jdbcTemplate = new JdbcTemplate(data);
     }
 
-    public List findAll() {
+    public List<User> findAll() {
         try {
             return jdbcTemplate.query("SELECT username, email, password, photo_url, last_connexion," +
                     " strategy_table, copy_token, tx_table, encrypted_apik FROM users",

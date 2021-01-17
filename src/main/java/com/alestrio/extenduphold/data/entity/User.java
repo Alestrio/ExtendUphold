@@ -2,6 +2,7 @@ package com.alestrio.extenduphold.data.entity;
 
 import com.alestrio.extenduphold.data.AbstractEntity;
 import javassist.bytecode.ByteArray;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -136,14 +137,8 @@ public class User extends AbstractEntity {
          * We will surely have to edit that method in order to use SpringSecurity embeded methods for hash and salt.
          * This way, it would simplify the link between the frontend and the backend : here.
          */
-        try{
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(getNextSalt());
-            this.password = new String(md.digest(this.password.getBytes(StandardCharsets.UTF_8)));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(this.password);
     }
 
     public User() {

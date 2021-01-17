@@ -1,5 +1,6 @@
 package com.alestrio.extenduphold.security;
 
+import com.alestrio.extenduphold.data.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @EnableWebSecurity
@@ -58,13 +64,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
          * Additionally, there is currently no admin GUI, so there is no need to use another role than USER.
          * We will edit that when Admin GUI starts to be WiP.
          */
-        UserDetails user =
-                User.withUsername("user")
-                        .password("{noop}password")
-                        .roles("USER")
-                        .build();
+        ArrayList<UserDetails> details = new ArrayList<>();
+        List<com.alestrio.extenduphold.data.entity.User> users = new UserService().findAll();
+        users.forEach(e -> {
+            details.add(User
+                    .withUsername(e.getUsername())
+                    .password(e.getPassword())
+                    .roles("USER")
+                    .build()
+            );
+        });
 
-        return new InMemoryUserDetailsManager(user);
+        return new InMemoryUserDetailsManager(details);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
     }
 
     @Override
