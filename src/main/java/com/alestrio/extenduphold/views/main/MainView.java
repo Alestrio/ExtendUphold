@@ -71,6 +71,7 @@ public class MainView extends AppLayout {
         logoLayout.add(new H1("ExtendUphold"));
         layout.add(logoLayout, menu);
         Anchor logout = new Anchor("logout", "Log out");
+        logout.setWidthFull();
         layout.add(logout);
         return layout;
     }

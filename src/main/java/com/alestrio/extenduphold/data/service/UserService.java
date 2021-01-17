@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the class responsible for the actions in the database. At this point, no secret data is left unencrypted,
+ * this allows to avoid putting secret data in the database.
+ */
 @Component
 public class UserService {
     @Autowired
