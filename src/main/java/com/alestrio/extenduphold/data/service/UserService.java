@@ -29,14 +29,45 @@ public class UserService {
         }
     }
 
-    public void addUser(User user){
-        this.createStrat(user.getStrategy_table());
-        this.createTx(user.getTx_table());
+    public int addUser(User user){
+        try {
+            this.createStrat(user.getStrategy_table());
+            this.createTx(user.getTx_table());
+            return jdbcTemplate.update("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    user.getUsername(), user.getEmail(), user.getPassword(),
+                    user.getPhoto_url(), user.getLast_connexion(), user.getStrategy_table(),
+                    user.getCopy_token(), user.getTx_table(), user.getEncrypted_apik());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
-    private void createTx(String tx_table) {
+    private int createTx(String tx_table) {
+        try{
+            return jdbcTemplate.update("create table " + tx_table + "\n" +
+                    "(\n" +
+                    "pair text not null,\n" +
+                    "amount text not null,\n" +
+                    "sold_or_bought text not null\n" +
+                    ");"
+            );
+        }catch(Exception e){
+            return 0;
+        }
+
     }
 
-    private void createStrat(String id) {
+    private int createStrat(String id) {
+        try{
+            return jdbcTemplate.update("create table " + id + "\n" +
+                    "(\n" +
+                    "\tpair text not null,\n" +
+                    "\tsteps longtext null,\n" +
+                    "\tstoploss text not null\n" +
+                    ");"
+            );
+        }catch(Exception e){
+            return 0;
+        }
     }
 }
