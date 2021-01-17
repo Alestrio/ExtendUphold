@@ -2,6 +2,11 @@ package com.alestrio.extenduphold.views.main;
 
 import java.util.Optional;
 
+import com.alestrio.extenduphold.views.copytrading.CopyTradingView;
+import com.alestrio.extenduphold.views.profile.ProfileView;
+import com.alestrio.extenduphold.views.strategy.StrategyView;
+import com.alestrio.extenduphold.views.tradingotg.TradingOTGView;
+import com.alestrio.extenduphold.views.txhistory.TxHistoryView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -69,10 +74,10 @@ public class MainView extends AppLayout {
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         logoLayout.add(new Image("images/logo.png", "ExtendUphold logo"));
         logoLayout.add(new H1("ExtendUphold"));
-        layout.add(logoLayout, menu);
         Anchor logout = new Anchor("logout", "Log out");
         logout.setWidthFull();
-        layout.add(logout);
+        menu.add(logout);
+        layout.add(logoLayout, menu);
         return layout;
     }
 
@@ -86,7 +91,15 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        return new Tab[]{createTab("ExtendUphold", ExtendUpholdView.class), createTab("About", AboutView.class)};
+        return new Tab[]{
+                createTab(getTranslation("drawer.dashboard"), ExtendUpholdView.class),
+                createTab(getTranslation("drawer.profile"), ProfileView.class),
+                createTab(getTranslation("drawer.strategy"), StrategyView.class),
+                createTab(getTranslation("drawer.txhistory"), TxHistoryView.class),
+                createTab(getTranslation("drawer.trading_otg"), TradingOTGView.class),
+                createTab(getTranslation("drawer.copytrading"), CopyTradingView.class),
+                createTab(getTranslation("drawer.about"), AboutView.class)
+        };
     }
 
     private static Tab createTab(String text, Class<? extends Component> navigationTarget) {
