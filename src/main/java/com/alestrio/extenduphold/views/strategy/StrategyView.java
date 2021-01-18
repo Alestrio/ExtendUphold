@@ -9,6 +9,7 @@ import com.vaadin.flow.router.Route;
 public class StrategyView extends VerticalLayout {
     public StrategyView(){
         UI.getCurrent().getPage().setTitle(getTranslation("drawer.strategy"));
-
+        AddPairLayout pair = new AddPairLayout();
+        add(pair);
     }
 }
