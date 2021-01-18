@@ -1,6 +1,9 @@
 package com.alestrio.extenduphold.views.login;
 
+import com.alestrio.extenduphold.views.usercreator.UserCreationView;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -24,8 +27,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         login.setAction("login");
+        Paragraph noAccount = new Paragraph(getTranslation("login.noaccount"));
+        noAccount.add(new Anchor("register", getTranslation("login.noacc_anchor") + " "));
 
-        add(new H1("ExtendUphold"), login);
+        add(new H1("ExtendUphold"), login, noAccount);
     }
 
     @Override
