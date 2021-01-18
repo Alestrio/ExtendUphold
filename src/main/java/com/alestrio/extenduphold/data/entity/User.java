@@ -58,7 +58,7 @@ public class User extends AbstractEntity {
     }
 
     private String generateTxID() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     private String generateCopyToken() {
@@ -66,7 +66,7 @@ public class User extends AbstractEntity {
     }
 
     private String generateStratID() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     /* Those are encryption functions for the API key
