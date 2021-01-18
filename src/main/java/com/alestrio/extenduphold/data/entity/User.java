@@ -1,7 +1,6 @@
 package com.alestrio.extenduphold.data.entity;
 
 import com.alestrio.extenduphold.data.AbstractEntity;
-import javassist.bytecode.ByteArray;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.Cipher;
@@ -14,13 +13,10 @@ import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;

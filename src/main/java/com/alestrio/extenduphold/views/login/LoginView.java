@@ -1,6 +1,5 @@
 package com.alestrio.extenduphold.views.login;
 
-import com.alestrio.extenduphold.views.usercreator.UserCreationView;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;

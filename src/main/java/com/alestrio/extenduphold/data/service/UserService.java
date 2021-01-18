@@ -19,6 +19,7 @@ import java.util.List;
 @Component
 public class UserService {
     JdbcTemplate jdbcTemplate;
+    private User user;
 
     public UserService() {
         MysqlDataSource data = new MysqlDataSource();
@@ -32,6 +33,20 @@ public class UserService {
         jdbcTemplate = new JdbcTemplate(data);
     }
 
+    public User findByUsername(String name) {
+        List<User> users = findAll();
+
+        users.forEach(e -> {
+            if (e.getUsername().equals(name)) {
+                this.user = e;
+            }
+        });
+        if (user != null) {
+            return this.user;
+        } else {
+            return new User();
+        }
+    }
     public List<User> findAll() {
         try {
             return jdbcTemplate.query("SELECT username, email, password, photo_url, last_connexion," +
