@@ -3,43 +3,78 @@ package com.alestrio.extenduphold.views.strategy;
 import com.alestrio.extenduphold.data.api.assets.*;
 import com.vaadin.flow.component.ItemLabelGenerator;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class AddPairLayout extends FormLayout {
+public class AddPairLayout extends VerticalLayout {
     public AddPairLayout(){
-        ComboBox<AssetType> assetType = new ComboBox<>();
-        ComboBox<AbstractAsset> secondary = new ComboBox<>();
+        ComboBox<AssetType> assetType1 = new ComboBox<>();
+        ComboBox<AbstractAsset> secondary1 = new ComboBox<>();
 
-        assetType.setItems(AssetType.values());
-        assetType.setItemLabelGenerator((ItemLabelGenerator<AssetType>) item -> getTranslation("strategy.assettype."+item.getSuffix()));
-        assetType.addValueChangeListener(event ->{
+        assetType1.setItems(AssetType.values());
+        assetType1.setItemLabelGenerator((ItemLabelGenerator<AssetType>) item -> getTranslation("strategy.assettype."+item.getSuffix()));
+        assetType1.addValueChangeListener(event ->{
             switch (event.getValue()){
                 case FIAT:
-                    secondary.setItems(Fiat.values());
+                    secondary1.setItems(Fiat.values());
                     break;
                 case MISC:
-                    secondary.setItems(Misc.values());
+                    secondary1.setItems(Misc.values());
                     break;
                 case ENVIRONMENTAL:
-                    secondary.setItems(Environmental.values());
+                    secondary1.setItems(Environmental.values());
                     break;
                 case STABLECOINS:
-                    secondary.setItems(Stablecoins.values());
+                    secondary1.setItems(Stablecoins.values());
                     break;
                 case METALS:
-                    secondary.setItems(Metals.values());
+                    secondary1.setItems(Metals.values());
                     break;
                 case CRYPTO:
-                    secondary.setItems(Crypto.values());
+                    secondary1.setItems(Crypto.values());
                     break;
                 case EQUITIES:
-                    secondary.setItems(Equities.values());
+                    secondary1.setItems(Equities.values());
                     break;
             }
-            secondary.setItemLabelGenerator( e -> getTranslation("strategy.asset."+e.getSymbol()));
+            secondary1.setItemLabelGenerator( e -> getTranslation("strategy.asset."+e.getSymbol().toLowerCase()));
         });
 
-        add(/*new H2(getTranslation("strategy.assettype"))*/ assetType, secondary);
+        ComboBox<AssetType> assetType2 = new ComboBox<>();
+        ComboBox<AbstractAsset> secondary2 = new ComboBox<>();
+
+        assetType2.setItems(AssetType.values());
+        assetType2.setItemLabelGenerator((ItemLabelGenerator<AssetType>) item -> getTranslation("strategy.assettype."+item.getSuffix()));
+        assetType2.addValueChangeListener(event ->{
+            switch (event.getValue()){
+                case FIAT:
+                    secondary2.setItems(Fiat.values());
+                    break;
+                case MISC:
+                    secondary2.setItems(Misc.values());
+                    break;
+                case ENVIRONMENTAL:
+                    secondary2.setItems(Environmental.values());
+                    break;
+                case STABLECOINS:
+                    secondary2.setItems(Stablecoins.values());
+                    break;
+                case METALS:
+                    secondary2.setItems(Metals.values());
+                    break;
+                case CRYPTO:
+                    secondary2.setItems(Crypto.values());
+                    break;
+                case EQUITIES:
+                    secondary2.setItems(Equities.values());
+                    break;
+            }
+            secondary2.setItemLabelGenerator( e -> getTranslation("strategy.asset."+e.getSymbol().toLowerCase()));
+        });
+
+
+        add(new H2(getTranslation("strategy.createpair")), new HorizontalLayout(assetType1, secondary1), new HorizontalLayout(assetType2, secondary2));
     }
 }
 
