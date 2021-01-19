@@ -1,6 +1,6 @@
 package com.alestrio.extenduphold.data.api.assets;
 
-public enum Crypto {
+public enum Crypto implements AbstractAsset{
     BITCOIN("BTC"),
     LITECOIN("LTC"),
     ETHEREUM("ETH"),
@@ -41,5 +41,10 @@ public enum Crypto {
 
     Crypto(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
 }

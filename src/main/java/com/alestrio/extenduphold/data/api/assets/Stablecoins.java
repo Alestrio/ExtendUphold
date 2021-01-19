@@ -1,6 +1,6 @@
 package com.alestrio.extenduphold.data.api.assets;
 
-public enum Stablecoins {
+public enum Stablecoins implements AbstractAsset{
     UPUSD("UPUSD"),
     UPEUR("UPEUR"),
     USDC("USDC"),
@@ -12,5 +12,10 @@ public enum Stablecoins {
 
     Stablecoins(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
 }

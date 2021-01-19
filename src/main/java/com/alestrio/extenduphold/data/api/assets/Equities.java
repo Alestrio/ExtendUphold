@@ -1,6 +1,6 @@
 package com.alestrio.extenduphold.data.api.assets;
 
-public enum Equities {
+public enum Equities implements AbstractAsset{
     SP500("SPY"),
     APPLE("AAPL"),
     AMAZON("AMZN"),
@@ -58,5 +58,10 @@ public enum Equities {
 
     Equities(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
 }

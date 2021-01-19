@@ -1,6 +1,6 @@
 package com.alestrio.extenduphold.data.api.assets;
 
-public enum Fiat {
+public enum Fiat implements AbstractAsset{
     USDOLLAR("USD"),
     EURO("EUR"),
     BRITISHPOUND("GBP"),
@@ -34,5 +34,10 @@ public enum Fiat {
 
     Fiat(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
 }

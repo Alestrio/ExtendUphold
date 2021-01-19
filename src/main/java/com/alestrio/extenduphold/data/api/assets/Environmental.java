@@ -1,6 +1,6 @@
 package com.alestrio.extenduphold.data.api.assets;
 
-public enum Environmental {
+public enum Environmental implements AbstractAsset {
     UNIVERSALCARBON("UPCO2"),
     BITCOINZERO("BTC0");
 
@@ -8,5 +8,10 @@ public enum Environmental {
 
     Environmental(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
 }

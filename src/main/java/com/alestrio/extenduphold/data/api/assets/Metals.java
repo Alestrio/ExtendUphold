@@ -1,6 +1,6 @@
 package com.alestrio.extenduphold.data.api.assets;
 
-public enum Metals {
+public enum Metals implements AbstractAsset{
     GOLD("XAU"),
     PALLADIUM("XPD"),
     PLATINUM("XPT"),
@@ -11,5 +11,10 @@ public enum Metals {
 
     Metals(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
 }
