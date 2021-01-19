@@ -2,6 +2,7 @@ package com.alestrio.extenduphold.views.strategy;
 
 import com.alestrio.extenduphold.views.main.MainView;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
@@ -10,6 +11,6 @@ public class StrategyView extends VerticalLayout {
     public StrategyView(){
         UI.getCurrent().getPage().setTitle(getTranslation("drawer.strategy"));
         AddPairLayout pair = new AddPairLayout();
-        add(pair);
+        add(new H1(getTranslation("strategy.title")),pair);
     }
 }

@@ -2,13 +2,17 @@ package com.alestrio.extenduphold.views.strategy;
 
 import com.alestrio.extenduphold.data.api.assets.*;
 import com.vaadin.flow.component.ItemLabelGenerator;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class AddPairLayout extends VerticalLayout {
     public AddPairLayout(){
+        setSizeFull();
+
         ComboBox<AssetType> assetType1 = new ComboBox<>();
         ComboBox<AbstractAsset> secondary1 = new ComboBox<>();
 
@@ -73,8 +77,34 @@ public class AddPairLayout extends VerticalLayout {
             secondary2.setItemLabelGenerator( e -> getTranslation("strategy.asset."+e.getSymbol().toLowerCase()));
         });
 
+        Label label1 = new Label(getTranslation("strategy.label1"));
+        Label label2 = new Label(getTranslation("strategy.label2"));
 
-        add(new H2(getTranslation("strategy.createpair")), new HorizontalLayout(assetType1, secondary1), new HorizontalLayout(assetType2, secondary2));
+        HorizontalLayout firstRow = new HorizontalLayout(label1, assetType1, secondary1);
+        HorizontalLayout secondRow = new HorizontalLayout(label2, assetType2, secondary2);
+        firstRow.setSizeFull();
+        secondRow.setSizeFull();
+        firstRow.setAlignItems(Alignment.CENTER);
+        secondRow.setAlignItems(Alignment.CENTER);
+        firstRow.expand(assetType1, secondary1);
+        secondRow.expand(assetType2, secondary2);
+        label1.setWidth("12em");
+        label2.setWidth("12em");
+
+        Button validate = new Button(getTranslation("strategy.validate"));
+        validate.addClickListener(e -> btnValidate(secondary1, secondary2));
+        HorizontalLayout btnLayout = new HorizontalLayout(validate);
+        btnLayout.setSizeFull();
+        btnLayout.setAlignItems(Alignment.CENTER);
+        btnLayout.expand(validate);
+
+        setAlignSelf(Alignment.STRETCH);
+
+        add(new H2(getTranslation("strategy.createpair")), firstRow, secondRow, btnLayout);
+    }
+
+    private void btnValidate(ComboBox<AbstractAsset> secondary1, ComboBox<AbstractAsset> secondary2) {
+
     }
 }
 
